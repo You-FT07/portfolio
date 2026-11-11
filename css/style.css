@@ -1,0 +1,872 @@
+/* =========================================================
+   stylesheet.css  ミックス版（ポップ＋ライブを少し）
+   クラス名は index.html に書いたとおり（区切りは _ ）
+   ========================================================= */
+ 
+/* ---------- 1. 色の変数（ここを変えると全体の色が変わる） ---------- */
+/* ベイスターズ・ライト（初期値） */
+:root {
+  --bg: #EAF2FF;
+  --surface: rgba(255, 255, 255, .72);
+  --ink: #0A1F4D;
+  --muted: #4D5F8A;
+  --line: rgba(10, 31, 77, .12);
+  --accent: #0B64C0;
+  --accent-ink: #FFFFFF;
+  --hi: #FFD500;
+  --hi-ink: #0A1F4D;
+  --b1: #5AA9FF;
+  --b2: #FFD84D;
+  --b3: #7FE3FF;
+  --sky: #BFE0FF;
+  --grass: #3DAA55;
+  --spot: rgba(11, 100, 192, .16);
+  --shadow: rgba(10, 31, 77, .3);
+ 
+  --font-body: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  --font-display: "Dela Gothic One", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --font-pixel: "DotGothic16", "Hiragino Kaku Gothic ProN", monospace;
+  --font-sport: "Big Shoulders Display", "Dela Gothic One", sans-serif;
+  color-scheme: light;
+}
+ 
+/* ホークス・ライト */
+:root[data-team="hawks"] {
+  --bg: #FFF6D6;
+  --surface: rgba(255, 253, 240, .75);
+  --ink: #14110A;
+  --muted: #6B5E2B;
+  --line: rgba(20, 17, 10, .14);
+  --accent: #FFC400;
+  --accent-ink: #14110A;
+  --hi: #14110A;
+  --hi-ink: #FFD500;
+  --b1: #FFD11A;
+  --b2: #FFB000;
+  --b3: #FFE98A;
+  --sky: #FFE680;
+  --spot: rgba(255, 196, 0, .28);
+  --shadow: rgba(20, 17, 10, .3);
+}
+ 
+/* ベイスターズ・ナイト */
+:root[data-theme="dark"] {
+  --bg: #060E26;
+  --surface: rgba(14, 30, 72, .55);
+  --ink: #EAF3FF;
+  --muted: #A9BEE8;
+  --line: rgba(160, 190, 255, .2);
+  --accent: #3C91FF;
+  --accent-ink: #04122E;
+  --hi: #FFD500;
+  --hi-ink: #0A1F4D;
+  --b1: #1F5FD8;
+  --b2: #B88A00;
+  --b3: #0090C8;
+  --sky: #0B1C4A;
+  --spot: rgba(60, 145, 255, .26);
+  --shadow: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+ 
+/* ホークス・ナイト */
+:root[data-theme="dark"][data-team="hawks"] {
+  --bg: #0D0B05;
+  --surface: rgba(48, 40, 14, .55);
+  --ink: #FFF3C2;
+  --muted: #D9C97E;
+  --line: rgba(255, 196, 0, .22);
+  --accent: #FFC400;
+  --accent-ink: #14110A;
+  --hi: #FFC400;
+  --hi-ink: #14110A;
+  --b1: #B88A00;
+  --b2: #FFC400;
+  --b3: #6B5200;
+  --sky: #2A2108;
+  --spot: rgba(255, 196, 0, .22);
+}
+ 
+/* ---------- 2. 下準備（ブラウザ標準の余白などをそろえる） ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.85;
+}
+h1, h2, h3, h4, p, dl, dd, figure { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+a { color: inherit; }
+img { display: block; max-width: 100%; }
+p:empty, li:empty { display: none; }          /* 空の要素は表示しない */
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+ 
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; letter-spacing: .01em; }
+h2 { font-size: clamp(30px, 5vw, 52px); line-height: 1.3; margin-bottom: 8px; }
+ 
+main, footer { max-width: 1120px; margin-inline: auto; padding-inline: 20px; }
+main > section { padding-top: 72px; }
+section > h2 + p { color: var(--muted); margin-bottom: 28px; max-width: 34em; }
+ 
+/* ---------- 3. 背景（ぼかした色のかたまり／ざらつき） ---------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10vh -10vw;
+  z-index: -1;
+  opacity: .5;
+  background:
+    radial-gradient(50vw 50vw at 5% 5%, var(--b1), transparent 70%),
+    radial-gradient(44vw 44vw at 95% 45%, var(--b2), transparent 70%),
+    radial-gradient(40vw 40vw at 40% 100%, var(--b3), transparent 70%);
+  animation: bg-move 30s ease-in-out infinite alternate;
+}
+@keyframes bg-move { to { transform: translate(3vw, 4vh) scale(1.08); } }
+ 
+body::after {   /* うっすら粒状の質感 */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: .1;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+ 
+/* ナイトのときだけ、スポットライトを2本 */
+:root[data-theme="dark"]::before,
+:root[data-theme="dark"]::after {
+  content: "";
+  position: fixed;
+  top: -12vh;
+  width: 32vw;
+  height: 130vh;
+  z-index: -1;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  animation: beam 16s ease-in-out infinite alternate;
+}
+:root[data-theme="dark"]::before { left: 8vw; opacity: .15; background: linear-gradient(to bottom, var(--accent), transparent 72%); }
+:root[data-theme="dark"]::after  { right: 8vw; opacity: .1; animation-direction: alternate-reverse; animation-duration: 20s; background: linear-gradient(to bottom, #fff, transparent 72%); }
+@keyframes beam { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
+ 
+/* ---------- 4. 共通のパーツ（カード風の箱・ボタン） ---------- */
+.hero > *, .player-card, .bio, .school, .timeline, .lineup, .work, #contact {
+  position: relative;
+  border-radius: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 50px -32px var(--shadow);
+  transition: border-color .25s, transform .3s;
+}
+.hero > *:hover, .player-card:hover, .bio:hover, .work:hover { border-color: var(--accent); }
+ 
+.button, .work_more, .work a, .hero_team button, #theme-toggle {
+  font: inherit;
+  cursor: pointer;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 26px;
+  border-radius: 999px;
+  font-weight: 900;
+  text-decoration: none;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 10px 24px -12px var(--shadow);
+  transition: transform .2s;
+}
+.button--sub { background: var(--hi); color: var(--hi-ink); }
+.button:hover { transform: translateY(-3px) scale(1.03); }
+:root[data-theme="dark"] .button { box-shadow: 0 0 22px -8px var(--accent); }
+:root[data-theme="dark"] .button--sub { box-shadow: 0 0 22px -8px var(--hi); }
+ 
+/* ---------- 5. ヘッダー（浮いている丸いバー） ---------- */
+.header {
+  position: sticky;
+  top: 12px;
+  z-index: 50;
+  width: min(1080px, calc(100% - 32px));
+  margin: 14px auto 0;
+  padding: 8px 12px 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 12px 32px -20px var(--shadow);
+}
+.header_brand { font-family: var(--font-display); font-size: 16px; text-decoration: none; }
+.header_nav ul { display: flex; gap: 22px; font-size: 14px; font-weight: 700; }
+.header_nav a { color: var(--muted); text-decoration: none; }
+.header_nav a:hover { color: var(--ink); }
+#theme-toggle, .hero_team button {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 16px;
+  font-size: 13px;
+  font-weight: 700;
+}
+#theme-toggle:hover, .hero_team button:hover { background: var(--spot); }
+.hero_team button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+ 
+/* ---------- 6. ヒーロー（大小のカードを並べる） ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 0;
+}
+.hero_main {
+  grid-column: span 7;
+  grid-row: span 2;
+  padding: clamp(26px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  min-height: 440px;
+}
+.hero_main h1 { font-size: clamp(34px, 6.2vw, 74px); line-height: 1.2; }
+.hero_main h1 span { display: block; margin-top: 14px; font-size: .34em; line-height: 1.6; color: var(--muted); }
+.hero_main p { color: var(--muted); max-width: 32em; }
+.hero_main p:last-child { display: flex; gap: 12px; flex-wrap: wrap; }
+ 
+.stage {   /* ドット絵の野球シーンが入る場所（動きはJavaScriptで） */
+  grid-column: span 5;
+  height: 280px;
+  overflow: hidden;
+  background: linear-gradient(var(--sky) 68%, var(--grass) 68%);
+}
+.hero_learning {
+  grid-column: span 5;
+  padding: 22px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero_learning p:first-child { font-family: var(--font-pixel); font-size: 14px; color: var(--muted); }
+#learning-word { font-family: var(--font-display); font-size: clamp(28px, 4vw, 40px); line-height: 1.4; }
+ 
+.hero_github {
+  grid-column: span 6;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.hero_github span { font-family: var(--font-body); font-size: 14px; color: var(--muted); }
+.hero_team { grid-column: span 6; padding: 24px 28px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.hero_team p { width: 100%; font-family: var(--font-pixel); font-size: 14px; color: var(--muted); }
+.hero_team button { padding: 8px 18px; font-size: 15px; }
+ 
+/* ---------- 7. 流れる文字 ---------- */
+.marquee {   /* 画面の端から端まで広げる（中身を中央に寄せた幅から、はみ出させる） */
+  overflow: hidden;
+  margin: 44px calc(50% - 50vw) 8px;
+}
+.marquee p {
+  width: max-content;
+  white-space: nowrap;
+  font-family: var(--font-sport);
+  font-weight: 900;
+  font-size: clamp(64px, 11vw, 130px);
+  line-height: 1.15;
+  animation: marquee var(--dur, 12s) linear infinite;   /* 速さは main.js が計算する */
+}
+.marquee_item { display: inline-block; padding-right: 1.1em; }
+.marquee p:first-child { color: transparent; -webkit-text-stroke: 2px var(--ink); }
+.marquee p:last-child { color: var(--accent); animation-direction: reverse; }
+@keyframes marquee { to { transform: translateX(calc(var(--shift, 100%) * -1)); } }
+ 
+.only-day { display: none; }                                   /* 昼夜で文字を切り替える */
+:root[data-theme="light"] .only-day { display: inline; }
+:root[data-theme="light"] .only-night { display: none; }
+ 
+/* ---------- 8. プロフィール ---------- */
+#profile { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; align-items: stretch; }
+#profile > h2, #profile > p { grid-column: 1 / -1; }
+ 
+.player-card { grid-column: span 5; overflow: hidden; display: flex; flex-direction: column; }
+.player-card_number {
+  position: absolute;
+  top: 8px;
+  left: 20px;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 76px;
+  line-height: 1;
+  opacity: .85;
+}
+.player-card_avatar {
+  height: 220px;
+  background: linear-gradient(160deg, var(--b1), var(--b2));
+  overflow: hidden;
+}
+.player-card_avatar img { width: 100%; height: 100%; object-fit: cover; }
+.player-card_role {
+  align-self: flex-start;
+  margin: 18px 24px 8px;
+  padding: 1px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.player-card_kana { margin: 0 24px; font-size: 13px; color: var(--muted); }
+.player-card_name { margin: 0 24px 12px; font-family: var(--font-display); font-size: 30px; line-height: 1.3; }
+.player-card dl {
+  margin: 0 24px 22px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 16px;
+  font-size: 14px;
+}
+.player-card dt { color: var(--muted); }
+.player-card dd { font-weight: 700; }
+ 
+.bio { grid-column: span 7; padding: clamp(24px, 3.4vw, 40px); display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.bio h3 { font-size: clamp(22px, 3vw, 30px); line-height: 1.5; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 10px; }
+.facts div { padding: 12px 16px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); }
+.facts dt { font-family: var(--font-pixel); font-size: 12px; line-height: 1.6; color: var(--muted); }
+.facts dd { font-size: 15px; font-weight: 700; }
+ 
+/* ---------- 9. 打順 ---------- */
+.lineup { padding: 10px; }
+.lineup li {
+  display: grid;
+  grid-template-columns: 64px 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3vw, 28px);
+  transition: background .2s;
+}
+.lineup li:hover { background: var(--spot); }
+.lineup li > span {   /* 背番号の札 */
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 14px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 2;
+}
+:root[data-theme="dark"] .lineup li > span { box-shadow: 0 0 12px -4px var(--accent); }
+.lineup li:hover > span { animation: hop .45s; }
+@keyframes hop { 50% { transform: translateY(-8px) rotate(-8deg); } }
+ 
+.lineup small, .bench small {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 1px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.lineup li:nth-child(-n+3) small:not(.status) { background: var(--accent); color: var(--accent-ink); }          /* フロント */
+.lineup li:nth-child(n+4) small:not(.status) { background: var(--hi); color: var(--hi-ink); }                   /* バック */
+.lineup li.next small:not(.status) { background: transparent; color: var(--ink); border: 1px dashed var(--ink); }  /* これから挑戦 */
+.lineup li.next > span { background: transparent; color: var(--ink); border: 2px dashed var(--ink); line-height: 1.8; }
+.status { border: 1px solid var(--line); color: var(--muted); }
+ 
+.bench { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 16px; padding-inline: 8px; color: var(--muted); }
+.bench span { font-family: var(--font-display); font-size: 18px; color: var(--ink); padding: 4px 18px; border: 1px dashed var(--ink); border-radius: 999px; }
+ 
+/* ---------- 10. 制作物 ---------- */
+.group-work, .my-work {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 18px;
+}
+.group-work > h3, .my-work > h3 { grid-column: 1 / -1; font-size: 22px; }
+ 
+.work { display: flex; flex-direction: column; gap: 10px; padding: 22px; }
+.work:hover { transform: translateY(-6px); }
+.work h3, .work h4 { font-size: 20px; line-height: 1.5; }
+.work > p { color: var(--muted); font-size: 15px; }
+.work_status {   /* 状態ラベルは、いちばん上に出す */
+  order: -1;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 16px;
+  border: 1px dashed var(--muted);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.work_status[data-status="developing"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .3; } }
+.work_status[data-status="released"] { border-style: solid; border-color: var(--accent); color: var(--ink); }
+/* 完成したけれど、公開はしていない */
+.work_status[data-status="completed"] { border-style: solid; border-color: var(--muted); color: var(--ink); }
+.work_status[data-status="completed"]::before { content: "✓"; font-weight: 900; color: var(--muted); } 
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags li { font-size: 12px; font-weight: 700; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); }
+ 
+.work > p:last-of-type { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }   /* リンクの並び */
+.work a, .work_more {
+  display: inline-block;
+  padding: 3px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.work a { background: var(--ink); color: var(--bg); }
+.work a:hover { background: var(--accent); color: var(--accent-ink); }
+.work_more { align-self: flex-start; background: transparent; color: var(--ink); border-color: var(--line); }
+.work_more:hover { background: var(--spot); }
+ 
+/* ---------- 11. 経歴 ---------- */
+.school { padding: 22px 28px; margin-bottom: 18px; }
+.school_label { font-family: var(--font-pixel); font-size: 13px; color: var(--muted); }
+.school_name { font-family: var(--font-display); font-size: clamp(18px, 2.6vw, 24px); line-height: 1.6; }
+.school_period { margin-top: 6px; color: var(--muted); font-size: 14px; }
+ 
+.timeline { padding: 10px 28px; }
+.timeline li { position: relative; padding: 18px 0 18px 130px; border-bottom: 1px solid var(--line); }
+.timeline li:last-child { border-bottom: 0; }
+.timeline time { position: absolute; left: 0; top: 18px; font-family: var(--font-pixel); color: var(--muted); }
+.timeline b { display: block; font-size: 18px; }
+ 
+/* ---------- 12. 連絡先・フッター ---------- */
+#contact { margin-top: 72px; padding: clamp(28px, 5vw, 60px); }
+#contact h2 { font-size: clamp(28px, 5.4vw, 62px); margin-bottom: 14px; }
+#contact > p { color: var(--muted); }
+#contact > p:last-of-type { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+footer { padding-block: 56px 64px; text-align: center; color: var(--muted); font-size: 14px; }
+ 
+/* ---------- 13. 詳細ウィンドウ（dialog） ---------- */
+.work-dialog {
+  width: min(720px, 92vw);
+  max-height: 90vh;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--bg);
+  color: var(--ink);
+}
+.work-dialog::backdrop { background: rgba(0, 0, 0, .55); backdrop-filter: blur(6px); }
+.work-dialog_close {
+  position: sticky;            /* スクロールしても、上に張りつく */
+  top: 0;
+  z-index: 2;
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: -16px -16px -40px auto;   /* 右上に寄せる。下の文字は押し下げない */
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);       /* 後ろの文字が透けないように、色を付ける */
+  color: var(--ink);
+  font-size: 20px;
+  cursor: pointer;
+}
+.work-dialog h3 { padding-right: 48px; }   /* 長い作品名が、×に重ならないように */
+.work-dialog_meta { color: var(--muted); font-size: 14px; }
+.work-dialog_shots { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 16px 0; }
+.work-dialog img {
+  display: block;
+  width: auto;
+  max-width: 100%;      /* 横長の画像は、ウィンドウの幅に収める */
+  max-height: 70vh;     /* 縦長の画像は、画面の高さの70%までに収める */
+  height: auto;
+  margin-inline: auto;  /* 小さい画像は、中央に置く */
+  object-fit: contain;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+.work-dialog figcaption { text-align: center; }          /* 画像の説明文も、中央に */
+.work-dialog_meta { padding-right: 48px; }               /* ×ボタンと重ならないように */
+.work-dialog figcaption { font-size: 13px; color: var(--muted); }
+.work-dialog h4 { margin: 20px 0 6px; font-size: 18px; }
+.work-dialog ul:not(.tags) { list-style: disc; padding-left: 1.4em; }
+ 
+/* ---------- 14. ローディング画面（body に is-loading が付いたときだけ表示） ---------- */
+.loader {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(var(--accent) 50%, var(--hi) 50%);   /* 上下をチームカラーに */
+  transition: transform .9s cubic-bezier(.77, 0, .18, 1);
+}
+body.is-loading .loader { display: flex; }
+.loader.is-open { transform: translateY(-100%); }                 /* 幕が上に上がる */
+.loader_card {
+  min-width: min(86vw, 380px);
+  padding: 28px 36px 26px;
+  text-align: center;
+  color: #fff;
+  background: #050A18;
+  border: 2px solid var(--accent);
+  border-radius: 32px;
+  box-shadow: 0 0 14px var(--accent), 0 0 48px -6px var(--accent), inset 0 0 18px -6px var(--accent);
+  animation: tube 3.2s ease-in-out infinite;
+}
+@keyframes tube { 50% { box-shadow: 0 0 8px var(--accent), 0 0 30px -6px var(--accent), inset 0 0 12px -8px var(--accent); } }
+.loader_count {
+  font-family: var(--font-display);
+  font-size: 50px;
+  line-height: 1.3;
+  text-shadow: 0 0 3px #fff, 0 0 10px var(--accent), 0 0 22px var(--accent), 0 0 46px var(--accent), 0 0 80px var(--accent);
+  animation: neon-pulse 2.4s ease-in-out infinite;
+}
+@keyframes neon-pulse { 50% { text-shadow: 0 0 3px #fff, 0 0 8px var(--accent), 0 0 16px var(--accent), 0 0 32px var(--accent); } }
+.loader_message {
+  margin-bottom: 14px;
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  letter-spacing: .18em;
+  text-shadow: 0 0 2px #fff, 0 0 8px var(--accent), 0 0 18px var(--accent), 0 0 36px var(--accent);
+  animation: flicker 3s linear infinite;
+}
+@keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; } 20%, 24%, 55% { opacity: .35; } }
+.loader_innings { display: flex; gap: 6px; justify-content: center; }
+.loader_innings li {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, .3);
+  border-radius: 7px;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(255, 255, 255, .6);
+}
+.loader_innings li.is-on {   /* JavaScriptが、進むたびに付けるクラス */
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 0 6px #fff, 0 0 14px var(--accent), 0 0 26px var(--accent);
+}
+ 
+/* ---------- 15. ナイトだけの小さな演出 ---------- */
+:root[data-theme="dark"] .hero_main h1 { animation: glitch 4s steps(1) infinite; }
+@keyframes glitch {
+  0%, 94%, 100% { text-shadow: none; transform: none; }
+  95% { text-shadow: 2px 0 rgba(255, 46, 99, .8), -2px 0 rgba(0, 229, 255, .8); transform: translateX(1px); }
+  97% { text-shadow: -2px 0 rgba(255, 46, 99, .8), 2px 0 rgba(0, 229, 255, .8); transform: none; }
+}
+ 
+/* ---------- 16. スマホ（画面幅 860px 以下） ---------- */
+@media (max-width: 860px) {
+  .header_nav a { display: none; }
+  .hero > * { grid-column: 1 / -1; grid-row: auto; }
+  .hero_main { min-height: 0; }
+  .player-card, .bio { grid-column: 1 / -1; }
+  .lineup li { grid-template-columns: 56px 1fr auto; }
+  .lineup .status { display: none; }
+  .timeline { padding-inline: 20px; }
+  .timeline li { padding-left: 96px; }
+}
+ 
+/* ---------- 17. 「動きを減らす」設定の人には、動きを止める ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+ 
+/* ---------- 18. ドット絵のステージ（中身は main.js が作る） ---------- */
+.stage > span { position: absolute; }
+.stage svg { display: block; shape-rendering: crispEdges; }
+ 
+.stage_cloud { opacity: .9; }
+:root[data-theme="dark"] .stage_cloud { opacity: .18; }
+.stage_cloud--1 { top: 26px; left: -120px; animation: drift 26s linear infinite; }
+.stage_cloud--2 { top: 84px; left: -120px; animation: drift 38s linear -14s infinite; }
+.stage_bird { top: 50px; left: -60px; animation: drift 18s linear -6s infinite; }
+@keyframes drift { to { transform: translateX(640px); } }
+ 
+.stage_star--1 { top: 18px; right: 22px; animation: twinkle 1.6s steps(2) infinite; }
+.stage_star--2 { top: 78px; right: 70px; animation: twinkle 1.6s steps(2) -.8s infinite; }
+@keyframes twinkle { 50% { opacity: .25; transform: scale(.75); } }
+ 
+/* ボールが飛んでくる → バットが振られる → HIT! → ボールが飛んでいく（6秒でくり返し） */
+.stage_bat { left: 30px; top: 170px; transform-origin: 0 50%; transform: rotate(-55deg); animation: swing 6s infinite; }
+@keyframes swing {
+  0%, 16% { transform: rotate(-55deg); }
+  21%, 30% { transform: rotate(-5deg); }
+  40%, 100% { transform: rotate(-55deg); }
+}
+.stage_ball { left: 185px; top: 112px; opacity: 0; animation: pitch 6s infinite; }
+@keyframes pitch {
+  0% { transform: translate(-280px, -60px) rotate(0); opacity: 0; }
+  4% { opacity: 1; }
+  20% { transform: translate(0, 0) rotate(540deg); opacity: 1; }
+  45% { transform: translate(260px, -220px) scale(.3) rotate(900deg); opacity: 1; }
+  46%, 100% { transform: translate(260px, -220px) scale(.3); opacity: 0; }
+}
+.stage_hit {
+  left: 120px;
+  top: 40px;
+  font-family: var(--font-pixel);
+  font-size: 34px;
+  color: var(--accent);
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, .35);
+  opacity: 0;
+  animation: hit 6s infinite;
+}
+@keyframes hit {
+  0%, 20% { opacity: 0; transform: scale(.4) rotate(-8deg); }
+  23% { opacity: 1; transform: scale(1.3) rotate(-6deg); }
+  32% { opacity: 1; transform: scale(1) rotate(-6deg); }
+  40%, 100% { opacity: 0; }
+}
+.stage_cap { right: 20px; bottom: 24px; animation: bob 2.4s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-6px); } }
+ 
+/* 「いま勉強中」の言葉が入れ替わるときの動き */
+#learning-word.is-swap { animation: swap .55s cubic-bezier(.2, .8, .2, 1); }
+@keyframes swap { from { opacity: 0; transform: translateY(45%); filter: blur(6px); } }
+ 
+@media (prefers-reduced-motion: reduce) {
+  .stage_ball { opacity: 1; }
+  .stage_hit { opacity: 0; }
+}
+ 
+/* ---------- 19. 制作物のプレビュー（写真 or ドット絵） ---------- */
+.work { overflow: hidden; }
+.work_thumb {
+  order: -2;                         /* カードのいちばん上に出す */
+  height: 150px;
+  margin: -22px -22px 6px;           /* カードの内側の余白を打ち消して、端まで広げる */
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--b1), var(--b2));
+}
+.work_thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.work_thumb svg { display: block; shape-rendering: crispEdges; transition: transform .5s cubic-bezier(.2, 1.4, .4, 1); }
+.work:hover .work_thumb img { transform: scale(1.05); }
+.work:hover .work_thumb svg { transform: rotate(-14deg) scale(1.25); }
+.work_thumb--logo { background: #fff; }
+.work_thumb--logo img { object-fit: contain; padding: 18px 22px; }
+ 
+/* ---------- 20. マウスに合わせて光る ---------- */
+.hero > *::after, .player-card::after, .bio::after, .school::after,
+.timeline::after, .lineup::after, .work::after, #contact::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--spot), transparent 62%);
+}
+.hero > *:hover::after, .player-card:hover::after, .bio:hover::after, .school:hover::after,
+.timeline:hover::after, .lineup:hover::after, .work:hover::after, #contact:hover::after { opacity: 1; }
+ 
+/* ---------- 21. ボールのカーソル ---------- */
+.cursor {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 150;
+  pointer-events: none;
+  margin: -12px 0 0 -12px;
+  opacity: 0;
+  transition: opacity .2s, scale .2s;
+}
+.cursor.is-on { opacity: 1; }
+.cursor.is-big { scale: 1.7; }
+.cursor svg { display: block; shape-rendering: crispEdges; }
+@media (hover: hover) and (pointer: fine) {
+  body.has-cursor .cursor { display: block; }
+}
+ 
+/* ---------- 22. 仕上げ ---------- */
+body { overflow-x: clip; }                                  /* 画面いっぱいの帯で、横にずれないように */
+.stage { background-origin: border-box; }                  /* 枠線の上に、緑の線が出ないように */
+.tags:not(:has(li:not(:empty))) { display: none; }          /* 中身が空のタグ欄は出さない */
+.player-card_avatar { display: grid; place-items: end center; }
+.player-card_avatar svg { display: block; shape-rendering: crispEdges; }
+ 
+.sticker {   /* 白フチのシール。マウスに合わせて少しずれる */
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 8px 8px rgba(0, 0, 0, .25));
+  transform: translate(calc(var(--px, 0) * var(--k) * 1px), calc(var(--py, 0) * var(--k) * 1px)) rotate(var(--r));
+  transition: transform .25s ease-out;
+}
+.sticker svg, .h2-icon svg { display: block; shape-rendering: crispEdges; }
+.h2-icon { display: inline-block; margin-right: 14px; vertical-align: middle; }
+ 
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 5px; z-index: 100; pointer-events: none; }
+.progress_fill { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p, 0) * 100%); background: var(--accent); }
+.progress_ball { position: absolute; top: -2px; left: calc(var(--p, 0) * (100% - 24px)); }
+.progress_ball svg { display: block; shape-rendering: crispEdges; }
+ 
+/* スクロールで見えたら、ふわっと出る */
+.js .rv:not(.in) { opacity: 0; }
+.rv.in { animation: rv-in .8s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--i, 0) * 90ms); }
+@keyframes rv-in { from { opacity: 0; transform: translateY(28px) scale(.97); filter: blur(8px); } }
+@media (prefers-reduced-motion: reduce) { .js .rv:not(.in) { opacity: 1; } }
+ 
+/* 見出しは「、」の後ろだけで改行する */
+.hero_main h1 { word-break: keep-all; overflow-wrap: anywhere; }
+ 
+/* スマホでは、シールが文字やボタンに重ならないように隠す */
+@media (max-width: 860px) {
+  .sticker { display: none; }
+}
+ 
+ 
+/* ---------- 23. 詳細ウィンドウが、開くとき・閉じるとき ---------- */
+.work-dialog[open] { animation: dialog-in .55s cubic-bezier(.2, .9, .25, 1); }
+.work-dialog[open]::backdrop { animation: backdrop-in .45s ease-out; }
+@keyframes dialog-in { from { opacity: 0; transform: translateY(48px) scale(.92); filter: blur(10px); } }
+@keyframes backdrop-in { from { opacity: 0; backdrop-filter: blur(0); } }
+ 
+.work-dialog.is-closing { animation: dialog-out .3s cubic-bezier(.4, 0, 1, 1) forwards; }
+.work-dialog.is-closing::backdrop { animation: backdrop-out .3s ease-in forwards; }
+@keyframes dialog-out { to { opacity: 0; transform: translateY(28px) scale(.96); filter: blur(6px); } }
+@keyframes backdrop-out { to { opacity: 0; } }
+ 
+/* 中身が、上から順番に出てくる（順番は main.js が --i に入れる） */
+.work-dialog[open] .dialog-item {
+  animation: dialog-item .65s cubic-bezier(.2, .8, .2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 80ms + .18s);
+}
+@keyframes dialog-item { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } }
+ 
+/* ---------- 24. ローディング画面の、ボール・星 ---------- */
+.loader svg { display: block; shape-rendering: crispEdges; }
+ 
+.loader_ball { display: grid; justify-items: center; margin: 24px 0 10px; }   /* 跳ねたときに、カードの上にぶつからない余白 */
+.loader_ball_sprite { animation: loader-bounce .7s cubic-bezier(.3, 0, .7, 1) infinite; }
+.loader_ball_shadow { width: 56px; height: 8px; margin-top: 6px; border-radius: 50%; background: #fff; opacity: .14; animation: loader-shadow .7s cubic-bezier(.3, 0, .7, 1) infinite; }
+@keyframes loader-bounce { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-26px) rotate(180deg); } }
+@keyframes loader-shadow { 50% { transform: scale(.55); opacity: .06; } }
+ 
+.loader_star {   /* 白フチのシールのような星が、またたく */
+  position: absolute;
+  filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff);
+  animation: twinkle 1.6s steps(2) infinite;
+}
+.loader_star--1 { top: 12%; left: 10%; }
+.loader_star--2 { top: 30%; left: 22%; animation-delay: -.5s; }
+.loader_star--3 { top: 16%; right: 12%; animation-delay: -1s; }
+.loader_star--4 { top: 34%; right: 24%; animation-delay: -.3s; }
+ 
+.loader_runner {   /* 下の線の上を、進み具合に合わせてボールが走る */
+  position: absolute;
+  left: 6vw;
+  right: 6vw;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 9vh);
+  height: 0;
+}
+.loader_runner::before { content: ""; position: absolute; inset: 0 0 auto 0; border-top: 3px dashed var(--hi-ink); opacity: .5; }
+.loader_runner::after { content: ""; position: absolute; right: -14px; top: -13px; width: 22px; height: 22px; background: #fff; border: 3px solid var(--hi-ink); transform: rotate(45deg); }
+ 
+ 
+ 
+/* ---------- 25. ローディング：走る選手とスコアボード ---------- */
+.loader_card { position: relative; z-index: 1; }   /* カードを、スコアボードより手前に */
+ 
+.loader_runner_player {   /* 進み具合に合わせて、ベースへ向かって走る */
+  position: absolute;
+  bottom: -1px;
+  left: calc(var(--p, 0) * (100% - 56px));
+  width: 56px;
+  height: 72px;
+  animation: runner-bob .28s ease-in-out infinite;
+}
+.runner_frame { position: absolute; inset: 0; }
+.runner_frame--a { animation: runner-a .28s steps(1) infinite; }   /* 2コマを交互に出して、足を動かす */
+.runner_frame--b { animation: runner-b .28s steps(1) infinite; }
+@keyframes runner-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes runner-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes runner-bob { 50% { transform: translateY(-3px); } }
+ 
+.loader_safe {   /* ベースに着いたら SAFE! */
+  position: absolute;
+  right: 0;
+  top: 14px;               /* 線の下（ベースの下）に出して、スコアボードに重ならないように */
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff;
+  background: #050A18;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  opacity: 0;
+  transform: scale(.4) rotate(-8deg);
+}
+.loader.is-safe .loader_safe { opacity: 1; transform: scale(1) rotate(-6deg); transition: opacity .2s, transform .4s cubic-bezier(.2, 1.6, .4, 1); }
+ 
+.loader_board {   /* 下の黄色い部分の、背景のスコアボード */
+  position: absolute;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 13vh);
+  transform: translateX(-50%);
+  width: min(960px, 92vw);
+  display: grid;
+  grid-template-columns: minmax(0, 6.6em) repeat(9, minmax(0, 1fr)) repeat(3, minmax(0, 1.3fr));
+  gap: 4px;
+  padding: 14px 16px;
+  font-family: var(--font-pixel);
+  font-size: clamp(9px, 1.9vw, 16px);
+  color: #fff;
+  background: rgba(5, 10, 24, .9);
+  border: 3px solid rgba(255, 255, 255, .35);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+}
+.loader_board > span { text-align: center; line-height: 1.9; border-radius: 4px; opacity: .28; transition: opacity .25s, text-shadow .25s; }
+.loader_board .b_n { text-align: left; padding-left: .3em; letter-spacing: .04em; opacity: 1; }
+.loader_board .is-on { opacity: 1; }
+.loader_board .b_t { background: rgba(255, 255, 255, .08); }
+.b_n--bay, .b_c--bay { color: #5AB0FF; }
+.b_n--hawks, .b_c--hawks { color: #FFD500; }
+.loader_board .b_c.is-on { text-shadow: 0 0 8px currentColor; }
+ 
+/* スマホ：スコアボードを少し上げて、走る選手と重ならないようにする */
+@media (max-width: 600px) {
+  .loader_board { bottom: calc(env(safe-area-inset-bottom, 0px) + 17vh); }
+}

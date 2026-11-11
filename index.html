@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <!-- スマホやタブレットなどのモバイル端末で正しく表示させる -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>大畑 彩音 | ポートフォリオ</title>
+        <!-- ファビコン -->
+        <link rel="icon" href="img/ファビコン.png" type="img/png">
+        <!-- 検索エンジンの検索結果に表示されるWebページの紹介文（スニペット）を設定する -->
+        <meta name="description" content="Webエンジニアを目指す大畑彩音のポートフォリオです。">
+        <link rel="stylesheet" href="css/style.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Dela+Gothic+One&family=DotGothic16&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+        <script src="js/main.js" defer></script>
+    </head>
+
+    <body>
+
+        <!-- ローディング画面 -->
+        <div class="loader" id="loader" role="status" aria-label="読み込み中">
+            <div class="loader_card">
+                <!-- 読み込み状況を「0%〜100%」の数値で画面に表示する -->
+                <p class="loader_count"><span id="loader-count">0</span>%</p>
+                <p class="loader_message" id="loader-message">WARMING UP</p>
+                <!-- 番号が先頭に付くリスト -->
+                <ol class="loader_innings">
+                    <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- ヘッダー -->
+        <header class="header">
+            <a class="header_brand" href="#top">Ayane Ohata</a>
+            <nav class="header_nav" aria-label="メインメニュー">
+                <ul>
+                    <li><a href="#profile">プロフィール</a></li>
+                    <li><a href="#lineup">打順</a></li>
+                    <li><a href="#works">制作物</a></li>
+                    <li><a href="#about">経歴</a></li>
+                    <li><a href="#contact">連絡先</a></li>
+                </ul>
+            </nav>
+            <!-- テーマセレクター -->
+            <button type="button" id="theme-toggle">デイ/ナイト</button>
+        </header>
+
+        <main id="top">
+
+            <!-- ヒーロー -->
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="hero_main">
+                    <h1 id="hero-title">フロントも、<wbr>バックも。<span>二刀流で作るエンジニアへ。</span></h1>
+                    <p>好きな野球のバッテリーのように、信頼できる仲間と呼吸を合わせて作るのが好きです。</p>
+                    <p>
+                        <a class="button" href="#profile">プロフィールを見る</a>
+                        <a class="button button--sub" href="#works">制作物を見る</a>
+                    </p>
+                </div>
+
+                <!-- 野球のドットアニメーション -->
+                <div class="stage" aria-hidden="true"></div>
+
+                <!-- いま勉強中 -->
+                <div class="hero_learning">
+                    <p>いま勉強中</p>
+                    <p id="learning-word">Spring Boot</p>
+                </div>
+
+                <!-- github -->
+                <a class="hero_github" href="https://github.com/You-FT07" target="_blank" rel="noopener">
+                    GitHub<span>コードを公開しています</span>
+                </a>
+
+                <!-- チームカラー切り替え -->
+                <div class="hero_team">
+                    <p>推しカラー</p>
+                    <button type="button" data-team="bay" aria-pressed="true">ベイスターズ</button>
+                    <button type="button" data-team="hawks" aria-pressed="false">ホークス</button>
+                </div>
+            </section>
+
+            <!-- 流れる文字 -->
+            <!-- 無限ループする流れる文字（マーキー効果）を実装する際、スクリーンリーダーなどの音声読み上げに対して重複した読み上げを防止する -->
+            <div class="marquee" aria-hidden="true">
+                <p>FRONT ★ BACK ★ 二刀流 ★</p>
+                <p>
+                    <span class="only-day">DAY GAME</span>
+                    <span class="only-night">NIGHT GAME</span>
+                    ★ 一球入魂 ★
+                </p>
+            </div>
+
+            <!-- プロフィール -->
+            <section id="profile" aria-labelledby="profile-title">
+                <h2 id="profile-title">プロフィール</h2>
+                <p></p>
+                
+                <article class="player-card">
+                    <p class="player-card_number">4</p>
+                    <div class="player-card_avatar" aria-hidden="true">
+                        <img src="" alt="プロフィール写真">
+                    </div>
+                    <p class="player-card_role">二刀流（フロント＆バック）</p>
+                    <p class="player-card_kana">おおはた あやね</p>
+                    <p class="player-card_name">大畑 彩音</p>
+                    <dl>
+                        <dt>ポジション</dt><dd>フルスタック志望</dd>
+                        <dt>打撃（フロント）</dt><dd>HTML、CSS</dd>
+                        <dt>守備（バック）</dt><dd>Java、SpringBoot</dd>
+                        <dt>好きな球団</dt><dd>ベイスターズ、ホークス</dd>
+                    </dl>
+                </article>
+
+                <div class="bio">
+                    <h3>信頼できる相手と組んで、力を出せる選手に。</h3>
+                    <p>野球観戦が好きで、ベイスターズとホークスを応援しています。なかでも、ピッチャーとキャッチャーが呼吸を合わせて抑える場面が好きです。</p>
+                    <p>開発でも、信頼できる仲間とは遠慮なく意見を言い合っていいものが作れると感じています。初対面の人との開発はまだ得意ではありませんが、グループ開発やメンターの経験を通して少しずつ慣れてきました。フロントもバックも守れる二刀流を目指しています。</p>
+
+                    <dl class="facts">
+                        <div><dt>好きなこと</dt><dd>野球観戦、音楽鑑賞</dd></div>
+                        <div><dt>いま勉強中</dt><dd>AWS</dd></div>
+                        <div><dt>目標</dt><dd>フルスタックエンジニア</dd></div>
+                        <div><dt>これから挑戦</dt><dd>応用情報・Go・Ruby・Java Silver</dd></div>
+                    </dl>
+                </div>
+            </section>
+
+            <!-- 打順 -->
+            <section id="lineup" aria-labelledby="lineup-title">
+                <h2 id="lineup-title">打順</h2>
+                <p>使える技術を打順にしました。1〜6番は開発経験があり勉強中の技術、7〜9番はこれから挑戦したいこと、ベンチは気になっているものです。</p>
+                <ol class="lineup">
+                    <li><span>1番</span> HTML <small>フロント</small> <small class="status">経験あり・勉強中</small></li>
+                    <li><span>2番</span> CSS <small>フロント</small> <small class="status">経験あり・勉強中</small></li>
+                    <li><span>3番</span> JavaScript <small>フロント</small> <small class="status">経験あり・勉強中</small></li>
+                    <li><span>4番</span> Java <small>バック</small> <small class="status">経験あり・勉強中</small></li>
+                    <li><span>5番</span> Servlet <small>バック</small> <small class="status">経験あり・勉強中</small></li>
+                    <li><span>6番</span> Spring <small>バック</small> <small class="status">経験あり・勉強中</small></li>
+                    <li class="next"><span>7番</span> AWS <small>クラウド</small> <small class="status">勉強中</small></li>
+                    <li class="next"><span>8番</span> 応用情報技術者 <small>資格</small> <small class="status">取得を目指す</small></li>
+                    <li class="next"><span>9番</span> Go <small>バック</small> <small class="status">挑戦したい</small></li>
+                </ol>
+                <p class="bench">ベンチ：<span>Ruby</span><small class="status">興味あり</small></p>
+            </section>
+
+            <!-- 制作物 -->
+            <section id="works" aria-labelledby="works-title">
+                <h2 id="works-title">制作物</h2>
+                <p></p>
+
+                <!-- グループ作品 -->
+                <section class="group-work">
+                    <h3>グループ制作</h3>
+                    <article class="work">
+                        <div class="work_thumb" data-icon="star"></div>
+                        <h3>おとログ</h3>
+                        <p>音楽特化型SNS</p>
+                        <ul class="tags">
+                            <li></li>
+                        </ul>
+                        <p class="work_status" data-status="developing">開発中</p>
+                        <p><a href="https://github.com/KazuneWorld/oto-log" target="_blank" rel="noopener">GitHub</a></p>
+                        <button type="button" class="work_more" data-open="work-a">詳しく見る</button>
+                    </article>
+
+                    <article class="work">
+                        <div class="work_thumb work_thumb--logo">
+                            <img src="img/unitrade_logo.jpg" alt="uni trade のロゴ" width="800" height="500">
+                        </div>
+                        <h3>uni trade</h3>
+                        <p>学内フリーマーケットシステム</p>
+                        <ul class="tags">
+                            <li></li>
+                        </ul>
+                        <p class="work_status" data-status="completed">完成（非公開）</p>
+                        <p><a href="https://github.com/KazuneWorld/uni-trade" target="_blank" rel="noopener">GitHub</a></p>
+                        <button type="button" class="work_more" data-open="work-unitrade">詳しく見る</button>
+                    </article>
+
+                    <article class="work">
+                        <div class="work_thumb work_thumb--logo">
+                            <img src="img/bookshop_logo.png" alt="bookshop のロゴ" width="800" height="500">
+                        </div>
+                        <h3>BookShop</h3>
+                        <p>書籍ショッピングECサイト</p>
+                        <ul class="tags">
+                            <li></li>
+                        </ul>
+                        <p class="work_status" data-status="completed">完成（非公開）</p>
+                        <p><a href="https://github.com/KazuneWorld/bookshop" target="_blank" rel="noopener">GitHub</a></p>
+                        <button type="button" class="work_more" data-open="work-bookshop">詳しく見る</button>
+                    </article>
+                </section>
+
+                <!-- 個人作品 -->
+                <section class="my-work">
+                    <h3>個人制作</h3>
+                    <article class="work">
+                        <div class="work_thumb" data-icon="ball"></div>
+                        <h3>スケジュール管理アプリ</h3>
+                        <p>就活中の学生向けスケジュール管理アプリ</p>
+                        <ul class="tags">
+                            <li></li>
+                        </ul>
+                        <p class="work_status" data-status="developing">開発中</p>
+                        <p><a href="#" target="_blank" rel="noopener">GitHub</a></p>
+                        <button type="button" class="work_more" data-open="work-schedule">詳しく見る</button>
+                    </article>
+
+                    <article class="work">
+                        <div class="work_thumb" data-icon="bat"></div>
+                        <h3>若葉台クリニック</h3>
+                        <p>架空のクリニックWebサイト</p>
+                        <ul class="tags">
+                            <li></li>
+                        </ul>
+                        <p class="work_status" data-status="developing">開発中</p>
+                        <p><a href="#" target="_blank" rel="noopener">GitHub</a></p>
+                        <button type="button" class="work_more" data-open="work-clinic">詳しく見る</button>
+                    </article>
+
+                    <article class="work">
+                        <div class="work_thumb work_thumb--logo">
+                            <img src="img/Hamstar-Life_logo.png" alt="Hamstar Life のロゴ" width="800" height="500">
+                        </div>
+                        <h3>Hamstar Life</h3>
+                        <p>ハムスターの種類・飼育方法解説サイト</p>
+                        <ul class="tags">
+                            <li></li>
+                        </ul>
+                        <p class="work_status" data-status="released">公開中</p>
+                        <p><a href="https://github.com/You-FT07/Hamstar-Life" target="_blank" rel="noopener">GitHub</a><a href="http://hamstar-life.s3-website-us-east-1.amazonaws.com/" target="_blank" rel="noopener">サイト</a></p>
+                        <button type="button" class="work_more" data-open="work-hamstar">詳しく見る</button>
+                    </article>
+                </section>
+            </section>
+
+            <!-- 経歴 -->
+            <section id="about" aria-labelledby="about-title">
+                <h2 id="about-title">経歴</h2>
+
+                <!-- 学校 -->
+                <div class="school">
+                    <p class="school_label">学校</p>
+                    <p class="school_name">KCS北九州情報専門学校 大学併修学科</p>
+                    <p class="school_name">北海道情報大学 経営情報学部 システム情報学科</p>
+                    <p class="school_period"><time datetime="2024-04">2024.04</time>〜 在学中（<time datetime="2028-03">2028.03</time> 卒業見込み）</p>
+                </div>
+
+                <ol class="timeline">
+                    <li><time datetime="2024-10">2024.10</time> <b>情報検定 情報活用試験 1級 合格</b> 文部科学省が後援する検定の最上位級です。情報を活用する力を幅広く学びました。</li>
+                    <li><time datetime="2025-02">2025.02</time> <b>SEA/J 情報セキュリティ技術認定 合格</b> 情報セキュリティの民間認定を運営するSEA/Jの試験です。<br>ネットワークを安全に構築・運用するための知識を学びました。</li>
+                    <li><time datetime="2026-01">2026.01</time> <b>グループ開発 bookshop</b> </li>
+                    <li><time datetime="2026-02">2026.02</time> <b>基本情報技術者試験 合格</b> ITエンジニアの基礎力を測る国家試験です。IT全般を幅広く学びました。次は応用情報技術者を目指しています。</li>
+                    <li><time datetime="2026-07">2026.07</time> <b>グループ開発 uni trade</b> 初めてGitHubを使った開発に挑戦しました。</li>
+                    <li><time datetime="2024-08">2024.08</time> <b>SEA/J CTF for Students 2026</b> 学生向けのサイバーセキュリティ競技大会に参加しました。<br>イベントの詳細は<a href="https://www.sea-j.net/ctf2026" target="_blank" rel="noopener">こちら</a></li>
+                    <li><time datetime="2026-09">2026.09</time> <b>KitaQDX ミライバトンラボ</b> 北九州市主催の地域の課題解決を担うDXリーダーを育成する実践型プログラムに参加しています。<br>イベントの詳細は<a href="https://digital.life-is-tech.com/event/kitaq2026_leaders" target="_blank" rel="noopener">こちら</a></li>
+                    <li><time datetime="2026-10">2026.10</time> <b>中高生のためのデジタル1Dayワークショップ</b> ミライバトンラボの一環でメンターとして参加し、中高生をサポートしました。</li>
+                </ol>
+            </section>
+
+            <!-- 連絡先 -->
+            <section id="contact" aria-labelledby="contact-title">
+                <h2 id="contact-title">一緒に開発できる日を、待っています。</h2>
+                <p>インターンや仕事のご相談は、こちらからどうぞ。</p>
+                <p>
+                    <a class="button" href="mailto:241108.kcsk@gmail.com">メールを送る</a>
+                    <a class="button button--sub" href="https://github.com/You-FT07" target="_blank" rel="noopener">GitHub</a>
+                </p>
+            </section>
+
+            <!-- 制作物詳細タブ -->
+            <dialog class="work-dialog" id="work-unitrade" aria-labelledby="work-unitrade-title">
+                <button type="button" class="work-dialog_close" data-close aria-label="閉じる">×</button>
+
+                <h3 id="work-unitrade-title">unitrade（ユニトレード）</h3>
+                <p class="work-dialog_meta">制作期間：2026.07~約1か月 ／ グループ開発（6名）</p>
+
+                <div class="work-dialog_shots">
+                    <figure>
+                        <img src="img/unitrade_top.png" alt="トップ画面" width="800" height="500" loading="lazy">
+                        <figcaption>トップ画面</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="img/unitrade_item.png" alt="商品詳細画面" width="800" height="500" loading="lazy">
+                        <figcaption>商品詳細画面</figcaption>
+                    </figure><figure>
+                        <img src="img/unitrade_404.png" alt="404画面" width="800" height="500" loading="lazy">
+                        <figcaption>404画面</figcaption>
+                    </figure>
+                    </figure><figure>
+                        <img src="img/unitrade_chat.png" alt="チャット画面" width="800" height="500" loading="lazy">
+                        <figcaption>チャット画面</figcaption>
+                    </figure>
+
+                </div>
+
+                <h4>概要</h4>
+                <p>学校のグループ演習を起点に開発した、学生同士で不要な教科書や物品を安全かつ気軽に売買できる学内限定のフリーマーケットアプリです。 <br>
+                    学籍番号をユーザーIDとして管理し、商品の出品・購入から取引相手とのチャット連絡、商品の受け渡し完了までをWeb上で一貫して行えるシステムとして開発しました。</p>
+
+                <h4>使用した技術・ツール</h4>
+                <ul class="tags"><li>Java</li><li>Spring Boot</li><li>Spring Security</li><li>MyBatis</li><li>Lombok</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Thymeleaf</li><li>Git/GitHub</li><li>Eclipse</li><li>XAMPP</li><li>MySQL</li></ul>
+
+                <h4>担当したところ</h4>
+                <ul>
+                    <li>ユーザー情報編集機能</li>
+                    <li>ユーザー登録機能</li>
+                    <li>商品の出品停止・再開機能</li>
+                    <li>エラー画面（404画面）の実装</li>
+                    <li>メンバーが描いた下書きをもとにした、ロゴとイラストの制作</li>
+                </ul>
+
+                <h4>工夫したところ</h4>
+                <ul>
+                    <li>イラストやロゴ、アイコンをすべて自作した</li>
+                    <li>商品の画像は実際の私物の写真を使用した<br>(著作権保護の為フリー素材に置き換えています)</li>
+                    <li>売り切れ・取引中のリボンをメルカリ風に作成した</li>
+                    <li>販売中で絞り込みができるようにした</li>
+                </ul>
+
+                <h4>振り返り</h4>
+                <ul>
+                    <li>初めてGitHubによるバージョン管理を導入し、ソースコードの統合や変更履歴の共有をスムーズに行うことができた​</li>
+                    <li>担当機能割り当て時に自発的な立候補がなく、リーダーによる一括配分（指示待ち）となってしまった​</li>
+                    <li>誰がどこを進めているかが可視化されておらず、「手伝いづらい・状況が分からない」状態が発生した</li>
+                </ul>
+            </dialog>
+
+            <dialog class="work-dialog" id="work-bookshop" aria-labelledby="work-bookshop-title">
+                <button type="button" class="work-dialog_close" data-close aria-label="閉じる">×</button>
+
+                <h3 id="work-bookshop-title">BookShop</h3>
+                <p class="work-dialog_meta">制作期間：2026.01~約1か月 ／ グループ開発（5名）</p>
+
+                <div class="work-dialog_shots">
+                    <figure>
+                        <img src="img/bookshop_top.png" alt="トップ画面" width="800" height="500" loading="lazy">
+                        <figcaption>トップ画面</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="img/bookshop_item.png" alt="商品詳細画面" width="800" height="500" loading="lazy">
+                        <figcaption>商品詳細画面</figcaption>
+                    </figure>
+                </div>
+
+                <h4>概要</h4>
+                <p>学校のグループ演習を起点に開発した、JSP/Servletによる動的なWebベースのECサイトです。 <br>
+                    提示された基本要件を満たすだけでなく、自宅開発にて多くの独自機能（ランキング、在庫連動など）の追加、MVCモデルへのリファクタリング、さらにはAWSへのデプロイまで自発的に行いました。</p>
+
+                <h4>使用した技術・ツール</h4>
+                <ul class="tags"><li>Java</li><li>JSP＆Servlet</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Eclipse</li><li>XAMMP</li><li>MySQL</li><li>Amazon RDS(MySQL)</li><li>Amazon EC2</li></ul>
+
+                <h4>担当したところ</h4>
+                <ul>
+                    <li>ユーザー管理機能</li>
+                    <li>マイページ機能</li>
+                    <li>会員登録機能</li>
+                    <li>人気ランキング機能</li>
+                    <li>CSS作成</li>
+                </ul>
+
+                <h4>工夫したところ</h4>
+                <ul>
+                    <li>イラストやロゴ、アイコンをすべて自作した</li>
+                    <li>在庫数が少ないとき、残りの点数が表示されるようにした</li>
+                    <li>本をカテゴリで分け、絞り込めるようにした</li>
+                    <li>トップページに人気ランキングが表示されるようにした</li>
+                    <li>ポップアップ広告を追加した</li>
+                </ul>
+
+                <h4>振り返り</h4>
+                <ul>
+                    <li>ショップロゴやアイコン、ポップアップ広告などの<br>​オリジナル要素を追加することが出来た​​</li>
+                    <li>本のカテゴリを分け、検索しやすくすることが出来た​</li>
+                    <li>役割をはっきり決め、作業するべきだと感じた​​</li>
+                </ul>
+            </dialog>
+
+            <dialog class="work-dialog" id="work-schedule" aria-labelledby="work-schedule-title">
+                <button type="button" class="work-dialog_close" data-close aria-label="閉じる">×</button>
+
+                <h3 id="work-schedule-title">スケジュール管理アプリ</h3>
+                <p class="work-dialog_meta">制作期間：未定 ／ 個人開発</p>
+
+                <div class="work-dialog_shots">
+                    <figure>
+                        <img src="img/schedule_img.png" alt="スケジュール管理アプリの画面イメージ" width="800" height="500" loading="lazy">
+                        <figcaption>画面イメージ</figcaption>
+                    </figure>
+                </div>
+
+                <h4>概要</h4>
+                <p>「KitaQDX ミライバトンラボ」で開発した、静的Webサイトです。 <br>
+                    Hamster Lifeでは、ハムスターの種類ごとの特徴や飼育方法などを紹介しています。<br>
+                    かわいらしい写真を取り入れながら、必要な情報を分かりやすくまとめ、 初めてハムスターを飼う人でも楽しみながら見られるWebサイトを目指して制作しました。<br>
+                    AWSへのデプロイを自発的に行いました。</p>
+
+                <h4>使用した技術・ツール</h4>
+                <ul class="tags"><li>HTML</li><li>CSS</li></ul>
+
+                <h4>工夫したところ</h4>
+                <ul>
+                    <li>角を丸くしたり、ロゴのフォントを変える等、<br>サイト全体を優しく親しみやすい雰囲気にした</li>
+                    <li>リンクやボタンの反応を視覚的に伝え、<br>クリックできる場所を分かりやすくした</li>
+                </ul>
+
+                <h4>振り返り</h4>
+                <ul>
+                    <li>ずっと挑戦したかったAWSを使ったWebサイト公開を実現できた</li>
+                    <li>スマホでも押しやすいボタンの大きさにした</li>
+                </ul>
+            </dialog>
+
+            <dialog class="work-dialog" id="work-clinic" aria-labelledby="work-clinic-title">
+                <button type="button" class="work-dialog_close" data-close aria-label="閉じる">×</button>
+
+                <h3 id="work-clinic-title">若葉台クリニック</h3>
+                <p class="work-dialog_meta">制作期間：未定 ／ 個人開発</p>
+
+                <div class="work-dialog_shots">
+                    <figure>
+                        <img src="img/clinic_img.png" alt="クリニックの画面イメージ" width="800" height="500" loading="lazy">
+                        <figcaption>画面イメージ</figcaption>
+                    </figure>
+                </div>
+
+                <h4>概要</h4>
+                <p>「KitaQDX ミライバトンラボ」で開発した、静的Webサイトです。 <br>
+                    Hamster Lifeでは、ハムスターの種類ごとの特徴や飼育方法などを紹介しています。<br>
+                    かわいらしい写真を取り入れながら、必要な情報を分かりやすくまとめ、 初めてハムスターを飼う人でも楽しみながら見られるWebサイトを目指して制作しました。<br>
+                    AWSへのデプロイを自発的に行いました。</p>
+
+                <h4>使用した技術・ツール</h4>
+                <ul class="tags"><li>HTML</li><li>CSS</li></ul>
+
+                <h4>工夫したところ</h4>
+                <ul>
+                    <li>角を丸くしたり、ロゴのフォントを変える等、<br>サイト全体を優しく親しみやすい雰囲気にした</li>
+                    <li>リンクやボタンの反応を視覚的に伝え、<br>クリックできる場所を分かりやすくした</li>
+                </ul>
+
+                <h4>振り返り</h4>
+                <ul>
+                    <li>ずっと挑戦したかったAWSを使ったWebサイト公開を実現できた</li>
+                    <li>スマホでも押しやすいボタンの大きさにした</li>
+                </ul>
+            </dialog>
+
+            <dialog class="work-dialog" id="work-hamstar" aria-labelledby="work-hamstar-title">
+                <button type="button" class="work-dialog_close" data-close aria-label="閉じる">×</button>
+
+                <h3 id="work-hamstar-title">Hamstar Life</h3>
+                <p class="work-dialog_meta">制作期間：2026.09.26~約2週間 ／ 個人開発</p>
+
+                <div class="work-dialog_shots">
+                    <figure>
+                        <img src="img/Hamstar-Life_ham.png" alt="ハムスターの種類" width="800" height="500" loading="lazy">
+                        <figcaption>ハムスターの種類</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="img/Hamstar-Life_chobi.png" alt="うちのハムスター" width="800" height="500" loading="lazy">
+                        <figcaption>うちのハムスター</figcaption>
+                    </figure>
+                </div>
+
+                <h4>概要</h4>
+                <p>「KitaQDX ミライバトンラボ」で開発した、静的Webサイトです。 <br>
+                    Hamster Lifeでは、ハムスターの種類ごとの特徴や飼育方法などを紹介しています。<br>
+                    かわいらしい写真を取り入れながら、必要な情報を分かりやすくまとめ、 初めてハムスターを飼う人でも楽しみながら見られるWebサイトを目指して制作しました。<br>
+                    AWSへのデプロイを自発的に行いました。</p>
+
+                <h4>使用した技術・ツール</h4>
+                <ul class="tags"><li>HTML</li><li>CSS</li><li>AWS S3</li></ul>
+
+                <h4>工夫したところ</h4>
+                <ul>
+                    <li>角を丸くしたり、ロゴのフォントを変える等、<br>サイト全体を優しく親しみやすい雰囲気にした</li>
+                    <li>リンクやボタンの反応を視覚的に伝え、<br>クリックできる場所を分かりやすくした</li>
+                </ul>
+
+                <h4>振り返り</h4>
+                <ul>
+                    <li>ずっと挑戦したかったAWSを使ったWebサイト公開を実現できた</li>
+                    <li>HTML・CSSの知識を改めて学び直すことができた</li>
+                    <li>デザインやレイアウトを工夫し、Webサイト制作のスキルを向上させることができた</li>
+                </ul>
+            </dialog>
+
+        </main>
+
+        <footer>
+            <p>© 2026 Ayane Ohata</p>
+        </footer>
+
+    </body>
+</html>
