@@ -1,8 +1,8 @@
+
 /* =========================================================
    stylesheet.css  ミックス版（ポップ＋ライブを少し）
    クラス名は index.html に書いたとおり（区切りは _ ）
-   ========================================================= */
- 
+   ========================================================= */ 
 /* ---------- 1. 色の変数（ここを変えると全体の色が変わる） ---------- */
 /* ベイスターズ・ライト（初期値） */
 :root {
@@ -593,7 +593,6 @@ body.is-loading .loader { display: flex; }
  
 /* ---------- 16. スマホ（画面幅 860px 以下） ---------- */
 @media (max-width: 860px) {
-  .header_nav a { display: none; }
   .hero > * { grid-column: 1 / -1; grid-row: auto; }
   .hero_main { min-height: 0; }
   .player-card, .bio { grid-column: 1 / -1; }
@@ -870,3 +869,132 @@ body { overflow-x: clip; }                                  /* 画面いっぱ�
 @media (max-width: 600px) {
   .loader_board { bottom: calc(env(safe-area-inset-bottom, 0px) + 17vh); }
 }
+ 
+ 
+/* ---------- 26. ヘッダー：ナビと切り替えボタンを、1つにまとめる ---------- */
+.header_nav { display: flex; align-items: center; gap: 22px; }
+.header_menu { display: none; }
+ 
+/* ---------- 27. スマホ：ハンバーガーメニュー ---------- */
+@media (max-width: 860px) {
+  .header_menu {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    margin-right: -4px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+  .header_menu span { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform .3s, opacity .2s; }
+  .header_menu[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }    /* 三本線が、×になる */
+  .header_menu[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .header_menu[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+ 
+  .header_nav {            /* 閉じているときは見えない。開くと、ヘッダーの下に出る */
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 10px;
+    border-radius: 28px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 50px -24px var(--shadow);
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px) scale(.97);
+    transform-origin: top right;
+    transition: opacity .25s, transform .3s cubic-bezier(.2, .9, .25, 1), visibility 0s .3s;
+  }
+  .header_nav.is-open { visibility: visible; opacity: 1; pointer-events: auto; transform: none; transition: opacity .25s, transform .3s cubic-bezier(.2, .9, .25, 1), visibility 0s; }
+ 
+  .header_nav ul { flex-direction: column; gap: 0; }
+  .header_nav a { display: block; padding: 14px 18px; border-radius: 16px; font-size: 17px; color: var(--ink); }
+  .header_nav a:hover, .header_nav a:active { background: var(--spot); }
+  .header_nav #theme-toggle { margin: 8px 8px 4px; min-height: 44px; font-size: 15px; }
+ 
+  .header_nav.is-open li { animation: menu-item .45s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--i, 0) * 55ms + .08s); }
+  .header_nav li:nth-child(1) { --i: 0; }
+  .header_nav li:nth-child(2) { --i: 1; }
+  .header_nav li:nth-child(3) { --i: 2; }
+  .header_nav li:nth-child(4) { --i: 3; }
+  .header_nav li:nth-child(5) { --i: 4; }
+}
+@keyframes menu-item { from { opacity: 0; transform: translateY(-8px); } }
+ 
+/* ---------- 28. スマホ・タブレット：ついてくる青い光を消す ---------- */
+@media (hover: none), (max-width: 860px) {
+  .hero > *::after, .player-card::after, .bio::after, .school::after,
+  .timeline::after, .lineup::after, .work::after, #contact::after { display: none; }
+}
+ 
+/* ---------- 29. メニューの中の、推しカラー ---------- */
+.header_team { display: none; }                       /* パソコンでは、ヒーローにあるので出さない */
+@media (max-width: 860px) {
+  .header_team { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 8px 4px; border-top: 1px solid var(--line); margin-top: 8px; }
+  .header_team p { width: 100%; font-family: var(--font-pixel); font-size: 13px; color: var(--muted); }
+  .header_team button {
+    min-height: 44px;
+    padding: 8px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .header_team button:hover { background: var(--spot); }
+  .header_team button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+ 
+  .header_nav { max-height: calc(100vh - 110px); overflow-y: auto; }   /* 画面が低いときは、メニューの中でスクロール */
+}
+ 
+ 
+/* ---------- 30. 開発中の作品の詳細：COMING SOON ---------- */
+.coming-soon {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin: 20px 0 8px;
+  padding: 28px 20px 30px;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+}
+.coming-soon_icon { position: relative; display: block; width: 170px; height: 112px; }
+.coming-soon_icon svg {                 /* バットが、素振りをしている */
+  position: absolute;
+  left: 12px;
+  bottom: 8px;
+  display: block;
+  shape-rendering: crispEdges;
+  transform-origin: 8% 50%;
+  animation: soon-swing 2.4s ease-in-out infinite;
+}
+@keyframes soon-swing {
+  0%, 100% { transform: rotate(-52deg); }
+  42%, 58% { transform: rotate(8deg); }
+}
+.coming-soon_title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 7vw, 44px);
+  letter-spacing: .06em;
+  line-height: 1.3;
+  text-shadow: 0 0 18px var(--spot);
+  animation: flicker 3.2s linear infinite;
+}
+.coming-soon_text { max-width: 26em; font-size: 14px; color: var(--muted); }
+.work-dialog .work_status { margin-top: 10px; }          /* ウィンドウの中の「開発中」ラベルの上に、余白 */

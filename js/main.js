@@ -311,10 +311,11 @@ function runLoader() {
    7.5 制作物のプレビュー（写真がなければ、ドット絵を入れる）
    --------------------------------------------------------- */
 function initWorkThumbs() {
-  document.querySelectorAll(".work_thumb").forEach((el) => {
+  document.querySelectorAll(".work_thumb, .coming-soon_icon").forEach((el) => {
     if (el.querySelector("img")) return;                 // 写真があれば、そのまま使う
     const icon = el.dataset.icon || "star";              // data-icon="star" / "bat" / "cap" / "ball"
-    el.innerHTML = sprite(icon, icon === "bat" ? 5 : 7);
+    const soon = el.classList.contains("coming-soon_icon");   // COMING SOON のバットは、少し小さめに描く
+    el.innerHTML = sprite(icon, icon === "bat" ? (soon ? 6 : 5) : 7);
   });
 }
  
@@ -322,6 +323,7 @@ function initWorkThumbs() {
    7.6 マウスに合わせて光る／ボールのカーソル
    --------------------------------------------------------- */
 function initPointer() {
+  if (window.matchMedia("(hover: none)").matches) return;   // 指で操作する端末では、光もカーソルも使わない
   const TILES = ".hero > *, .player-card, .bio, .school, .timeline, .lineup, .work, #contact";
  
   // (1) 箱の上でマウスを動かすと、光がついてくる
@@ -477,6 +479,28 @@ function initMarquee() {
 }
  
 /* ---------------------------------------------------------
+   7.55 ハンバーガーメニュー（スマホ）
+   --------------------------------------------------------- */
+function initMenu() {
+  const button = document.querySelector(".header_menu");
+  const nav = document.getElementById("main-nav");
+  const header = document.querySelector(".header");
+  if (!button || !nav || !header) return;
+ 
+  function setOpen(open) {
+    nav.classList.toggle("is-open", open);
+    button.setAttribute("aria-expanded", String(open));
+    button.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
+  }
+ 
+  button.addEventListener("click", () => setOpen(button.getAttribute("aria-expanded") !== "true"));
+  nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));   // 項目を押したら閉じる
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });       // Escキー
+  document.addEventListener("pointerdown", (e) => { if (!header.contains(e.target)) setOpen(false); });   // 外側を押したら閉じる
+  window.matchMedia("(min-width: 861px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
+}
+ 
+/* ---------------------------------------------------------
    8. 実行（上から順に呼ぶ）
    --------------------------------------------------------- */
 initTheme();
@@ -484,6 +508,7 @@ initTeam();
 initStage();
 initLearning();
 initDialogs();
+initMenu();
 initWorkThumbs();
 initAvatar();
 initDecor();
